@@ -17,3 +17,10 @@ spec:
                name: auth-clusterip-srvs
                port:
                  number: 3000
+         - path: /api/users/signup
+           pathType: Prefix
+           backend:
+             service:
+               name: auth-clusterip-srvs
+               port:
+                 number: 3000
