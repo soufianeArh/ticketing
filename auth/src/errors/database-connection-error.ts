@@ -1,5 +1,3 @@
-import {ValidationError} from "express-validator";
-
 export class DatabaseConnectionError extends Error{
       statusCode= 500
       reason = "DB connection failed"
@@ -11,7 +9,7 @@ export class DatabaseConnectionError extends Error{
             Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
       }
 
-      serailizeError(){
+      serializeError(){
             return [{message: this.reason}]
       }
 }
