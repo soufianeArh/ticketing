@@ -6,6 +6,7 @@ import { signoutRouter } from './routes/signout'
 import { signupRouter } from './routes/signup'
 import { errorHandler } from './middlewares/error-handlers';
 import { NotFoundError } from './errors/not-found-error';
+import mongoose from 'mongoose';
 
 const app = express();
 
@@ -22,7 +23,15 @@ app.all("*", async (res, req, next)=>{
 
 app.use(errorHandler);
 
-app.listen(3000, ()=>{
-      console.log("express server running at 3000 via ts-node-dev");
-      console.log("test21")
-})
+const start = async ()=>{
+      try{
+            await  mongoose.connect("mongodb://auth-mongo-clusterip-srvs:27017/auth")
+            console.log("Connected to MongoDB")
+      }catch(err){
+            console.log("Mongoose Connection Failed",err)
+      }
+      app.listen(3000, ()=>{
+            console.log("express server running at 3000 via ts-node-dev");
+      })
+}
+start()
