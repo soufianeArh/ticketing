@@ -9,6 +9,6 @@ export function errorHandler(err: Error, req:Request, res: Response, next:NextFu
             res.status(err.statusCode).send({errors: err.serializeError()})
       }
       else{
-            res.send({errors:"hell"})
+            res.send({errors:"somethiung went wrong"})
       }
 }
