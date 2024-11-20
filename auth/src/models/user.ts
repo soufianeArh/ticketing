@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// const mongoose = require("mongoose");
+import {Password} from "../services/password"
 
 interface userAttr{
       email: string,
@@ -23,6 +23,17 @@ const userSchema = new  mongoose.Schema({
             required: true
       }
  })
+userSchema.pre("save",async function(done){
+      console
+      //isModified is true when modified and created
+      //in this case we discuss the case where its created
+      if(this.isModified("password")){
+            
+            const hashed = await Password.hash(this.get("password"));
+            this.set('password', hashed)
+      }
+      done();
+})
 userSchema.statics.build = (attr:userAttr) => {
       return new User(attr)
 }
