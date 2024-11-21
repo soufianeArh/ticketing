@@ -24,7 +24,6 @@ const userSchema = new  mongoose.Schema({
       }
  })
 userSchema.pre("save",async function(done){
-      console
       //isModified is true when modified and created
       //in this case we discuss the case where its created
       if(this.isModified("password")){
