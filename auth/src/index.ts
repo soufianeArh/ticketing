@@ -11,12 +11,13 @@ import { NotFoundError } from './errors/not-found-error';
 import mongoose from 'mongoose';
 
 const app = express();
-app.set('trust-proxy', true )
+app.set('trust proxy', true )
 
 app.use(bodyParser.json());
 app.use(cookieSession({
-      signed:true,
-      secure:true
+      signed:false,
+      secure:true,
+      keys: ['key1', 'key2']
 }));
 app.use(currentuserRouter)
 app.use(signinRouter);

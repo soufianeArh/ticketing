@@ -5,6 +5,7 @@ import { BadRequestError } from "../errors/bad-request-error";
 import {User} from "../models/user"
 
 import "express-async-errors"
+import jwt from "jsonwebtoken"
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.get(
             .withMessage("Password must be between 4 and 20")
       ],
       async(req: Request,res: Response)=>{
+            // console.log("req.session", req.session)
             
                   const errorByValidator = validationResult(req);
                   if(!errorByValidator.isEmpty()){
@@ -37,7 +39,16 @@ router.get(
                               password: req.body.password
                         })
                         await user.save();
-
+                       
+                        // Generate JWT
+                        const userJWT =  jwt.sign({
+                              id:user.id,
+                              email:user.email
+                        },'SOMETHING12345')
+                        // console.log("userJWT: ", userJWT)
+                        req.session={
+                              jwt: userJWT
+                        }
                         res.status(201).send(user)
                   }
 })
