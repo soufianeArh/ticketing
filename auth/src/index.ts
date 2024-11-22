@@ -1,4 +1,6 @@
 import express from 'express';
+import cookieSession from "cookie-session";
+
 import bodyParser from 'body-parser';
 import { currentuserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin'
@@ -9,9 +11,13 @@ import { NotFoundError } from './errors/not-found-error';
 import mongoose from 'mongoose';
 
 const app = express();
+app.set('trust-proxy', true )
 
 app.use(bodyParser.json());
-
+app.use(cookieSession({
+      signed:true,
+      secure:true
+}));
 app.use(currentuserRouter)
 app.use(signinRouter);
 app.use(signupRouter);
