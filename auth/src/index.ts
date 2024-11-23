@@ -31,6 +31,9 @@ app.all("*", async (res, req, next)=>{
 app.use(errorHandler);
 
 const start = async ()=>{
+      if(!process.env.JWT_KEY){
+            throw new Error('KWT_KEY must be defined in POD process NS!')
+      }
       try{
             await  mongoose.connect("mongodb://auth-mongo-clusterip-srvs:27017/auth")
             console.log("Connected to MongoDB")

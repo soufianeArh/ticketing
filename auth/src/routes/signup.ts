@@ -40,15 +40,17 @@ router.get(
                         })
                         await user.save();
                        
-                        // Generate JWT
                         const userJWT =  jwt.sign({
                               id:user.id,
                               email:user.email
-                        },'SOMETHING12345')
+                        },
+                        process.env.JWT_KEY!
+                        )
                         // console.log("userJWT: ", userJWT)
                         req.session={
                               jwt: userJWT
                         }
+                       
                         res.status(201).send(user)
                   }
 })
