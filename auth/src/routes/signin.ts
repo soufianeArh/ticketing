@@ -39,7 +39,7 @@ router.post(
             const passwordCheck = await Password.compare(existsingUser.password, req.body.password )
             if(!passwordCheck){
                   throw new BadRequestError("Incorrect Password")
-            }else{
+            }
                   const userJWT =  jwt.sign({
                         id:existsingUser.id,
                         email:existsingUser.email
@@ -50,8 +50,8 @@ router.post(
                   req.session={
                         jwt: userJWT
                   }
-                  res.status(200).send(existsingUser.toJSON())
-            }
+                  res.status(200).send(existsingUser)//===existing.toJSON()
+      
 
 })
 

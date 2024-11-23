@@ -1,12 +1,24 @@
 import express, {Response, Request} from "express";
-import {body, validationResult} from 'express-validator'
+
+import jwt from 'jsonwebtoken'
 
 const router = express.Router();
 
 router.get(
       "/api/users/currentuser",
-      ( req: Request , res: Response )=>{
-            
+      async ( req: Request , res: Response )=>{
+         
+            if( !req.session?.jwt){
+                  res.send({currentUser:null, location:"nojwt"})
+            }
+            try{
+                  const payload =  jwt.verify(req.session?.jwt, process.env.JWT_KEY!)
+                  res.send({currentUser:payload})
+            }catch(err){
+                  res.send({currentUser:null, location:"verify throw err "})
+            }
+           
+
 
 })
 
