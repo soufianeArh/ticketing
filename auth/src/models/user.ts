@@ -36,7 +36,6 @@ userSchema.pre("save",async function(done){
       //isModified is true when modified and created
       //in this case we discuss the case where its created
       if(this.isModified("password")){
-            
             const hashed = await Password.hash(this.get("password"));
             this.set('password', hashed)
       }
