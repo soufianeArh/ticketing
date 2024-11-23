@@ -1,16 +1,18 @@
 import express, {Response, Request } from "express";
-import {body, validationResult } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-error";
+import {body,  } from "express-validator";
 import { BadRequestError } from "../errors/bad-request-error";
-
+import {validateRequest} from "../middlewares/validate-request"
 import { User } from "../models/user";
 import {Password } from "../services/password";
+
 import jwt from "jsonwebtoken"
+import "express-async-errors"
+
 
 
 const router = express.Router();
 
-router.get(
+router.post(
       "/api/users/signin",
       [
             body("email")
@@ -20,12 +22,9 @@ router.get(
             .trim()
             .notEmpty()
             .withMessage("Password must be supplied")
-      ],async (req: Request,res: Response) => {
-            const errorsByValidator = validationResult(req);
-            if(!errorsByValidator.isEmpty()){
-                  throw new RequestValidationError(errorsByValidator.array())
-            }
-
+      ],
+      validateRequest,
+      async (req: Request,res: Response) => {
             const existsingUser = await User.findOne({
                   email : req.body.email
             });

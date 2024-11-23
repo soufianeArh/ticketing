@@ -2,6 +2,8 @@ import express, {Request, Response} from "express";
 import {body, validationResult} from 'express-validator';
 import { RequestValidationError } from "../errors/request-validation-error";
 import { BadRequestError } from "../errors/bad-request-error";
+import { validateRequest } from "../middlewares/validate-request";
+
 import {User} from "../models/user"
 
 import "express-async-errors"
@@ -20,14 +22,9 @@ router.get(
             .isLength({min:4,max:20})
             .withMessage("Password must be between 4 and 20")
       ],
+      validateRequest,
       async(req: Request,res: Response)=>{
-            // console.log("req.session", req.session)
-            
-                  const errorByValidator = validationResult(req);
-                  if(!errorByValidator.isEmpty()){
-                        throw new RequestValidationError(errorByValidator.array())
-                  }
-
+      
                   const existingUser = await User.findOne({email:req.body.email})
 
                   if(existingUser){
