@@ -10,13 +10,15 @@ router.get(
          
             if( !req.session?.jwt){
                   res.send({currentUser:null, location:"nojwt"})
-            }
+            }else{
+
             try{
                   const payload =  jwt.verify(req.session?.jwt, process.env.JWT_KEY!)
                   res.send({currentUser:payload})
             }catch(err){
                   res.send({currentUser:null, location:"verify throw err "})
             }
+      }
            
 
 

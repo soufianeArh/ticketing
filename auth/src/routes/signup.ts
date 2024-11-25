@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken"
 
 const router = express.Router();
 
-router.get(
+router.post(
       "/api/users/signup",
       [
             body('email')
@@ -31,10 +31,13 @@ router.get(
                        throw new BadRequestError('Email already in use')
 
                   }else{
+                        //User.build is a static method addewd via userSDhcema.static.build
                         const user = User.build({
                               email: req.body.email,
                               password: req.body.password
                         })
+                        //threre is a pre-defined function that will be fired when the user/
+                        //that function will hash userSchema.pre("save",....
                         await user.save();
                        
                         const userJWT =  jwt.sign({
