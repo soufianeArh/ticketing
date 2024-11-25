@@ -7,7 +7,6 @@ const router = express.Router();
 router.get(
       "/api/users/currentuser",
       async ( req: Request , res: Response )=>{
-         
             if( !req.session?.jwt){
                   res.send({currentUser:null, location:"nojwt"})
             }else{
@@ -19,9 +18,6 @@ router.get(
                   res.send({currentUser:null, location:"verify throw err "})
             }
       }
-           
-
-
 })
 
 export { router as currentuserRouter };
