@@ -2,8 +2,6 @@ import request from "supertest";
 import {app} from "../../app"
 import { response } from "express";
 it(" return status 201 for successful signup", async () => {
-      console.log("im from test")
-
       return request(app)
       .post("/api/users/signup")
       .send({
