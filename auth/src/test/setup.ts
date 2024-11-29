@@ -5,7 +5,7 @@ import { app } from "../app";
 
 //interface augmentation 
 declare global {
-  var signin: () => Promise<string[]>;
+  var signinG: () => Promise<string[]>;
 }
 
 let mongo: any;
@@ -38,7 +38,21 @@ afterAll(async () => {
 });
 
 
-global.signin = async () => {
+export async function signin() {
+  const response = await request(app)
+  .post("/api/users/signup")
+  .send({
+        email:"test@test.com",
+        password: "password"
+  })
+  .expect(201)
+  const cookiesArr = response.get("Set-Cookie")
+  if (!cookiesArr) {
+    throw new Error("Failed to get cookie from response");
+  }
+  return cookiesArr
+}
+global.signinG = async ()=> {
   const response = await request(app)
   .post("/api/users/signup")
   .send({

@@ -19,9 +19,8 @@ it("success with supplied cookie",async ()=>{
       const response = await request(app)
       .post("/api/users/signout")
       .expect(200)
-      const cookie = response.get("Set-Cookie")
-      console.log(cookie)//["..."]
-      console.log(typeof cookie)//aray
+      const cookie = await response.get("Set-Cookie")
+  
       if(!cookie){
             throw new Error("expected cookie but Not recieved")
       }
