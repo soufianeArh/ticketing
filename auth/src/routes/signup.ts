@@ -24,7 +24,6 @@ router.post(
       ],
       validateRequest,
       async(req: Request,res: Response)=>{
-            console.log("im from route used by superrequest")
       
                   const existingUser = await User.findOne({email:req.body.email})
 

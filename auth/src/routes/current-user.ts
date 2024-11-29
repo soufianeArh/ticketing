@@ -8,7 +8,7 @@ router.get(
       "/api/users/currentuser",
       currentUser,
       async ( req: Request , res: Response )=>{
-             res.send({currentUser:req.currentUser || null})
+             res.status(200).send({currentUser:req.currentUser || null})
 })
 
 export { router as currentuserRouter };
