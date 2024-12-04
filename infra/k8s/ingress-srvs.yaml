@@ -10,32 +10,18 @@ spec:
     - host: ticketing.dev
       http:
         paths:
-         - path: /api/users/currentuser
+         - path: /api/users/?(.*)
            pathType: Prefix
            backend:
              service:
                name: auth-clusterip-srvs
                port:
                  number: 3000
-         - path: /api/users/signup
+         - path: /?(.*)
            pathType: Prefix
            backend:
              service:
-               name: auth-clusterip-srvs
-               port:
-                 number: 3000
-         - path: /api/users/signin
-           pathType: Prefix
-           backend:
-             service:
-               name: auth-clusterip-srvs
-               port:
-                 number: 3000
-         - path: /api/users/signout
-           pathType: Prefix
-           backend:
-             service:
-               name: auth-clusterip-srvs
+               name: client-clusterip-srvs
                port:
                  number: 3000
                  
