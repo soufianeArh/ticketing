@@ -11,14 +11,14 @@ spec:
       http:
         paths:
          - path: /api/users/?(.*)
-           pathType: Prefix
+           pathType: ImplementationSpecific
            backend:
              service:
                name: auth-clusterip-srvs
                port:
                  number: 3000
          - path: /?(.*)
-           pathType: Prefix
+           pathType: ImplementationSpecific
            backend:
              service:
                name: client-clusterip-srvs
