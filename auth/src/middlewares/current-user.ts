@@ -27,6 +27,4 @@ export const currentUser = async (req:Request, res:Response, next:NextFunction) 
             }
             next()
       }
- 
-
 }

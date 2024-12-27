@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from "axios";
-export default ({url, method, body})=>{
+export default ({url, method, body, onSuccess})=>{
       const [errors, setErrors] = React.useState(null);
       const doRequest = async ()=>{
             try{
                   const response = await axios[method](url, body)
                   setErrors(null)
+                  onSuccess()
                   return response.data;
             }catch(err){
                   console.log(err)
@@ -17,7 +18,8 @@ export default ({url, method, body})=>{
                                     <li key={error.message}>{error.message}</li>)}
                               </ul>
                         </div>
-                  )
+                  );
+           
             }
       };
 

@@ -1,3 +1,4 @@
 export default ()=>{
-      return <h1>home page22</h1>
+      //need to do current user fetching 
+      return <h1>You are signed-in</h1>
 }
