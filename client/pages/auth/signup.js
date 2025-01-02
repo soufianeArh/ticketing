@@ -14,7 +14,6 @@ export default ()=>{
                   Router.push("/")
             }
       });
-
       async function onSubmit(e){
             e.preventDefault();
             await  doRequest();
