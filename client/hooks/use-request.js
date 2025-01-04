@@ -24,7 +24,6 @@ export default ({url, method, body, onSuccess})=>{
                               </div>
                         );
                   }
-
             }
       };
 
