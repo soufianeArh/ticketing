@@ -29,7 +29,8 @@ router.post(
                   email : req.body.email
             });
             if(!existsingUser){
-                  throw new BadRequestError("Email not found");
+                   throw new BadRequestError("Email not found");
+                  // throw new Error("Could not find the email")
             }
             // static async compare(storedPassword: string, suppliedPassword: string){
             //       const [hashedPassword,salt] = storedPassword.split(".")
