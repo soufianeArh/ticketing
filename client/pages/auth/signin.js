@@ -12,7 +12,7 @@ export default () =>{
             body:{email,password},
             onSuccess: function(){
                   Router.push("/")
-            }
+            } 
       });
       async function onSubmit(e){
             e.preventDefault();
