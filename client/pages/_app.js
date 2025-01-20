@@ -1,8 +1,11 @@
  import "bootstrap/dist/css/bootstrap.css"
- import buildClient from "../api/client-build"
+ import buildClient from "../api/client-build";
+ import Header from "../components/header"
+
 const NextPage =  ({Component, randomPageGetInitilalCall, currentUser})=>{
+      console.log(currentUser)
       return <div>
-            <h1>Header {currentUser.email} </h1>
+            <Header prop = {currentUser}/>
             <Component {...randomPageGetInitilalCall} />
       </div> 
 }
