@@ -1,3 +1,4 @@
 client/node_modules/
 client/.next/
 auth/node_modules/
+ticket/node_modules/

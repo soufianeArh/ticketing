@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticket
+  template:
+    metadata:
+      labels:
+        app: ticket
+    spec:
+      containers:
+        - name: ticket
+          image: soufiane12345/ticket:latest
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-clusterip-srvs
+spec:
+  selector:
+    app: ticket
+  type: ClusterIP
+  ports:
+    - name: ticket
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
