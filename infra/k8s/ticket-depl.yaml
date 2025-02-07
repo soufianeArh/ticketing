@@ -16,6 +16,8 @@ spec:
         - name: ticket
           image: soufiane12345/ticket:latest
           env:
+            - name: MONGO_URI
+              value: "mongodb://ticket-mongo-clusterip-srvs:27017/ticket"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

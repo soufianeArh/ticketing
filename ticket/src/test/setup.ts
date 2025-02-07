@@ -2,10 +2,11 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from "supertest";
 import { app } from "../app";
+import jwt from "jsonwebtoken"
 
-//interface augmentation 
+//interface augmentation
 declare global {
-  var signinG: () => Promise<string[]>;
+  var signinG: () => string[];
 }
 
 let mongo: any;
@@ -38,31 +39,40 @@ afterAll(async () => {
 });
 
 
-export async function signin() {
-  const response = await request(app)
-  .post("/api/users/signup")
-  .send({
-        email:"test@test.com",
-        password: "password"
-  })
-  .expect(201)
-  const cookiesArr = response.get("Set-Cookie")
-  if (!cookiesArr) {
-    throw new Error("Failed to get cookie from response");
-  }
-  return cookiesArr
+export function signin() {
+//fake payload
+const payload = {
+  id:"12fhb34er43t",
+  email:"test@test.com"
 }
-global.signinG = async ()=> {
-  const response = await request(app)
-  .post("/api/users/signup")
-  .send({
-        email:"test@test.com",
-        password: "password"
-  })
-  .expect(201)
-  const cookiesArr = response.get("Set-Cookie")
-  if (!cookiesArr) {
-    throw new Error("Failed to get cookie from response");
+//create JWT
+const token =  jwt.sign(payload, process.env.JWT_KEY!)
+//build the session object
+const session = {jwt: token}
+//turn session into JSON 
+const sessionJSON = JSON.stringify(session);
+//generate jwt base64
+const base64 = Buffer.from(sessionJSON).toString('base64')
+//return jwt base64 in cookie format (auto by res.send)
+return [`session=${base64}`]
+}
+
+
+
+global.signinG =  ()=> {
+  //fake payload
+  const payload = {
+    id:"12fhb34er43t",
+    email:"test@test.com"
   }
-  return cookiesArr
+  //create JWT
+  const token =  jwt.sign(payload, process.env.JWT_KEY!)
+  //build the session object
+  const session = {jwt: token}
+  //turn session into JSON 
+  const sessionJSON = JSON.stringify(session);
+  //generate jwt base64
+  const base64 = Buffer.from(sessionJSON).toString('base64')
+  //return jwt base64 in cookie format (auto by res.send)
+  return [`session=${base64}`]
 }

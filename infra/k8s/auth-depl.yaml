@@ -16,6 +16,8 @@ spec:
         - name: auth
           image: soufiane12345/auth:latest
           env:
+            - name: MONGO_URI
+              value: mongodb://auth-mongo-clusterip-srvs:27017/auth
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

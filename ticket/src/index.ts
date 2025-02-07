@@ -6,8 +6,11 @@ const start = async ()=>{
       if(!process.env.JWT_KEY){
             throw new Error('KWT_KEY must be defined in POD process NS!')
       }
+      if(!process.env.MONGO_URI){
+            throw new Error("DB Uri not added to Environment valirable")
+      }
       try{
-            await  mongoose.connect("mongodb://auth-mongo-clusterip-srvs:27017/auth")
+            await  mongoose.connect(process.env.MONGO_URI)
             console.log("Connected to MongoDB")
       }catch(err){
             console.log("Mongoose Connection Failed",err)

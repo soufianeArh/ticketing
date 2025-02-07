@@ -3,7 +3,9 @@ import cookieSession from "cookie-session";
 
 import bodyParser from 'body-parser';
 
-import { errorHandler, NotFoundError } from '@soufiane12345/ticketing-common';
+import { newTicketRouter } from './routes/new';
+
+import { errorHandler, NotFoundError, currentUser } from '@soufiane12345/ticketing-common';
 
 const app = express();
 app.set('trust proxy', true )
@@ -15,6 +17,9 @@ app.use(cookieSession({
       keys: ['key1', 'key2']
 }));
 
+app.use(currentUser);
+
+app.use(newTicketRouter);
 
 app.all("*", async (res, req, next)=>{
       next( new NotFoundError());
