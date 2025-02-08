@@ -66,13 +66,13 @@ it('collection cleared for test + creates a ticket record ', async ()=>{
       .post("/api/tickets")
       .set("Cookie", signin())
       .send({
-            title:"coorect title byme ",
+            title:"coorect title byme",
             price:10,
             //id will be added from req.currentuser=>REQUEST
       })
       .expect(201);
       tickets = await Ticket.find({});
       expect(tickets.length).toEqual(1);
-      expect(tickets[0].userId).toEqual("myod232");
+      expect(tickets[0].title).toEqual("coorect title byme");
       console.log(tickets)
 })

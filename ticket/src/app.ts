@@ -4,6 +4,7 @@ import cookieSession from "cookie-session";
 import bodyParser from 'body-parser';
 
 import { newTicketRouter } from './routes/new';
+import { getTicketRouter } from "./routes/show"
 
 import { errorHandler, NotFoundError, currentUser } from '@soufiane12345/ticketing-common';
 
@@ -20,6 +21,8 @@ app.use(cookieSession({
 app.use(currentUser);
 
 app.use(newTicketRouter);
+app.use(getTicketRouter);
+
 
 app.all("*", async (res, req, next)=>{
       next( new NotFoundError());
