@@ -22,7 +22,6 @@ router.post(
       ],
       validateRequest,
       async(req: Request,res: Response)=>{
-      
                   const existingUser = await User.findOne({email:req.body.email})
 
                   if(existingUser){

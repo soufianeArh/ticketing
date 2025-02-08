@@ -14,7 +14,6 @@ beforeAll(async () => {
   process.env.JWT_KEY = "asssdfasdf";
   process.env.NODE_ENV = "test";
 
-
   const mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
