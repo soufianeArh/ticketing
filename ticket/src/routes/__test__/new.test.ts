@@ -74,5 +74,5 @@ it('collection cleared for test + creates a ticket record ', async ()=>{
       tickets = await Ticket.find({});
       expect(tickets.length).toEqual(1);
       expect(tickets[0].title).toEqual("coorect title byme");
-      console.log(tickets)
+   
 })

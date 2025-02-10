@@ -15,7 +15,6 @@ router.post(
       ],
       validateRequest,
       async (req: Request,res: Response)=>{
-            console.log(req.currentUser)
             const ticket = Ticket.build({
                   title: req.body.title,
                   price: req.body.price,
