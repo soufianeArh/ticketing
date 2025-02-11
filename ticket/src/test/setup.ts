@@ -1,7 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import request from "supertest";
-import { app } from "../app";
 import jwt from "jsonwebtoken"
 
 //interface augmentation
@@ -41,7 +39,7 @@ afterAll(async () => {
 export function signin() {
 //fake payload
 const payload = {
-  id:"12fhb34er43t",
+  id: new mongoose.Types.ObjectId().toHexString(),
   email:"test@test.com"
 }
 //create JWT

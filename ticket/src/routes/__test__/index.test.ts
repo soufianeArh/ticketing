@@ -11,7 +11,7 @@ function createTicket() {
             price:10,
       });
 }
-it("ticket returned all ", async ()=>{
+it("routes exists ", async ()=>{
       const response = await request(app)
       .get(`/api/tickets`)
       .send();
