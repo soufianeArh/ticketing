@@ -17,6 +17,13 @@ spec:
                name: auth-clusterip-srvs
                port:
                  number: 3000
+         - path: /api/tickets/?(.*)
+           pathType: ImplementationSpecific
+           backend:
+             service:
+               name: ticket-clusterip-srvs
+               port:
+                 number: 3000
          - path: /?(.*)
            pathType: ImplementationSpecific
            backend:
