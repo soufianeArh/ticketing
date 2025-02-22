@@ -8,5 +8,6 @@ export class TicketCreatedListener extends Listener<TicketCreateEvent> {
       queueGroupName = "ticket-created-queue"
       onMessage = (data:TicketCreateEvent['data'], msg: Message)=>{
             msg.ack()
+            
       }
 }
