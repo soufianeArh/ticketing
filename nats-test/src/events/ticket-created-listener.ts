@@ -7,6 +7,7 @@ export class TicketCreatedListener extends Listener<TicketCreateEvent> {
       subject: Subjects.TicketCreated = Subjects.TicketCreated
       queueGroupName = "ticket-created-queue"
       onMessage = (data:TicketCreateEvent['data'], msg: Message)=>{
+            console.log(data)
             msg.ack()
             
       }
