@@ -11,8 +11,15 @@ const start = async ()=>{
             throw new Error("DB Uri not added to Environment valirable")
       }
       try{
-            await natsWrapper.connect("ticketing", "abc", "http://nats-clusterip-srvs:4222")
+            await natsWrapper.connect("ticketing", "abc", "http://nats-clusterip-srvs:4222");
             console.log("Connected to Nats")
+            natsWrapper.client.on("close", () => {
+                  console.log("closing terminal after chatching close event to end nats connection ");
+                  process.exit()
+            })
+            process.on("SIGINT", () => natsWrapper.client.close())
+            process.on("SIGTERM", () => natsWrapper.client.close())
+
             await  mongoose.connect(process.env.MONGO_URI)
             console.log("Connected to MongoDB")
       }catch(err){
