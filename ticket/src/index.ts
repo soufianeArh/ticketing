@@ -1,5 +1,6 @@
 import {app} from "./app"
 import mongoose from 'mongoose';
+import { natsWrapper } from "./nats-wrapper";
 
 
 const start = async ()=>{
@@ -10,6 +11,8 @@ const start = async ()=>{
             throw new Error("DB Uri not added to Environment valirable")
       }
       try{
+            await natsWrapper.connect("ticketing", "abc", "http://nats-clusterip-srvs:4222")
+            console.log("Connected to Nats")
             await  mongoose.connect(process.env.MONGO_URI)
             console.log("Connected to MongoDB")
       }catch(err){
