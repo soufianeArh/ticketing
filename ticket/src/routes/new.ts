@@ -23,13 +23,15 @@ router.post(
                   userId: req.currentUser!.id
             })
             await ticket.save();
+            console.log('ticketsaved')
             await new TicketCreatedPublisher(natsWrapper.client).publish({
                   id:ticket.id,
                   title:ticket.title,
                   price:ticket.price,
                   userId:ticket.userId
             });
-      res.status(201).send(ticket);
+            console.log("event publisher")
+           res.status(201).send(ticket);
 
 });
 
