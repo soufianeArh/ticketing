@@ -2,6 +2,7 @@ import request from "supertest";
 import {app} from "../../app";
 import {signin} from "../../test/setup";
 import {Ticket} from "../../models/Ticket"
+import { natsWrapper } from "../../nats-wrapper";
 
 
 it('has a route handler that handles adding (post) tickets', async ()=>{
@@ -76,4 +77,18 @@ it('collection cleared for test + creates a ticket record ', async ()=>{
       expect(tickets.length).toEqual(1);
       expect(tickets[0].title).toEqual("coorect title byme");
    
+})
+
+it("publisher an event", async ()=>{
+      await request(app)
+      .post("/api/tickets")
+      .set("Cookie", signin())
+      .send({
+            title:"coorect title byme",
+            price:10,
+            //id will be added from req.currentuser=>REQUEST
+      })
+      .expect(201);
+      expect(natsWrapper.client.publish).toHaveBeenCalled()
+      console.log(natsWrapper)
 })

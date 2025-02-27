@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../../app"
 import { signin } from "../../test/setup";
+import { natsWrapper } from "../../nats-wrapper";
 
 import mongoose from "mongoose";
 
@@ -106,4 +107,31 @@ it("return 200 when ticket updated success ", async()=>{
       expect(getTicketUpdated.body.price).toEqual(55)
 
 
+})
+
+it("published event", async()=>{
+      const cookie = signin();
+      //create ticket
+      const createTicketResponse = await request(app)
+      .post('/api/tickets')
+      .set("Cookie", cookie)
+      .send({
+            title:"my title",
+            price:20
+      });
+      //update ticket
+       await request(app)
+      .put(`/api/tickets/${createTicketResponse.body.id}`)
+      .set("Cookie", cookie)
+      .send({
+            title:"new title",
+            price:55
+      }).expect(200)
+      //make sure update is saved 
+      const getTicketUpdated = await request(app)
+      .get(`/api/tickets/${createTicketResponse.body.id}`)
+      .set("Cookie", cookie)
+      .send().expect(201)
+
+      expect(natsWrapper.client.publish).toHaveBeenCalled()
 })
