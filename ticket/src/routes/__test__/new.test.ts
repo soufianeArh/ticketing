@@ -3,7 +3,7 @@ import {app} from "../../app";
 import {signin} from "../../test/setup";
 import {Ticket} from "../../models/Ticket"
 
-jest.mock("../../nats-wrapper")
+
 it('has a route handler that handles adding (post) tickets', async ()=>{
       const response = await request(app)
       .post("/api/tickets")
