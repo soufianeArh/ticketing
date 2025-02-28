@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ticket-depl
+  name: orders-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ticket
+      app: orders
   template:
     metadata:
       labels:
-        app: ticket
+        app: orders
     spec:
       containers:
-        - name: ticket
-          image: soufiane12345/ticket:latest
+        - name: orders
+          image: soufiane12345/orders:latest
           env:
             - name: NATS_CLUSTER_ID
               value: ticketing
@@ -25,7 +25,7 @@ spec:
             - name: NATS_URL
               value: http://nats-clusterip-srvs:4222
             - name: MONGO_URI
-              value: "mongodb://ticket-mongo-clusterip-srvs:27017/ticket"
+              value: "mongodb://orders-mongo-clusterip-srvs:27017/orders"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -35,13 +35,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ticket-clusterip-srvs
+  name: orders-clusterip-srvs
 spec:
   selector:
-    app: ticket
+    app: orders
   type: ClusterIP
   ports:
-    - name: ticket
+    - name: orders
       protocol: TCP
       port: 3000
       targetPort: 3000
