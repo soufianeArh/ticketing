@@ -3,10 +3,10 @@ import cookieSession from "cookie-session";
 
 import bodyParser from 'body-parser';
 
-import { newTicketRouter } from './routes/new';
-import { showTicketRouter } from "./routes/show";
-import { getAllTickets } from "./routes/index";
-import { updateTickets } from './routes/update';
+import { newOrderRouter } from './routes/new';
+import { deleteOrderRouter } from './routes/delete';
+import {showOrderRouter} from "./routes/show";
+import {getAllOrderRouter} from "./routes/index"
 
 import { errorHandler, NotFoundError, currentUser } from '@soufiane12345/ticketing-common';
 
@@ -22,10 +22,10 @@ app.use(cookieSession({
 
 app.use(currentUser);
 
-app.use(newTicketRouter);
-app.use(showTicketRouter);
-app.use(getAllTickets);
-app.use(updateTickets);
+app.use(newOrderRouter);
+app.use(deleteOrderRouter);
+app.use(showOrderRouter);
+app.use(getAllOrderRouter);
 
 app.all("*", async (res, req, next)=>{
       next( new NotFoundError());
