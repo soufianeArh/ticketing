@@ -20,8 +20,8 @@ spec:
               value: ticketing
             - name: NATS_CLIENT_ID
               valueFrom:
-                fileRef:
-                  filePath: metadata.name
+                fieldRef:
+                  fieldPath: metadata.name
             - name: NATS_URL
               value: http://nats-clusterip-srvs:4222
             - name: MONGO_URI
