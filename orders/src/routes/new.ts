@@ -6,7 +6,7 @@ import { Ticket } from "../Models/ticket";
 import { Order } from "../Models/order";
 
 const router = express.Router();
-
+const EXPIRATION_WINDOW_SECONDS = 15*60;
 router.post(
       "/api/orders",
       requireAuth,
@@ -27,22 +27,14 @@ router.post(
             throw new NotFoundError()
       }
       //make sure ticket is nore reserved (im a selling only one ticket?)
-      const existingOrder = await Order.findOne({
-            ticket,
-            status:{
-                  $in:[
-                        OrderStatus.Created,
-                        OrderStatus.AwaitingPayment,
-                        OrderStatus.Complete
-                  ]
-            }
-      })
       const isReserved = await ticket.isReserved();
       if(isReserved){
             //reserved
             throw new BadRequestError("ticket already reserved")
       }
       //calculate an exiration date for order
+      const expiration = new Date()
+      expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS)
       //save order
       //publish an event saying that the order has been created
 })
