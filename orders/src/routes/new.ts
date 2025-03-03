@@ -33,10 +33,19 @@ router.post(
             throw new BadRequestError("ticket already reserved")
       }
       //calculate an exiration date for order
-      const expiration = new Date()
-      expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS)
+      const expiresAt = new Date()
+      expiresAt.setSeconds(expiresAt.getSeconds() + EXPIRATION_WINDOW_SECONDS)
       //save order
+      const order =  Order.build({
+            userId:req.currentUser!.id,
+            status: OrderStatus.Created,
+            expiresAt,
+            ticket
+      })
+      await order.save()
       //publish an event saying that the order has been created
+      //send 201  created order
+      res.status(201).send(order)
 })
 
 export { router as newOrderRouter };
