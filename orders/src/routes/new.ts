@@ -37,7 +37,8 @@ router.post(
                   ]
             }
       })
-      if(existingOrder){
+      const isReserved = await ticket.isReserved();
+      if(isReserved){
             //reserved
             throw new BadRequestError("ticket already reserved")
       }
