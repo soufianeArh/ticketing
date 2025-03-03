@@ -1,9 +1,10 @@
 import mongoose from "mongoose"
-import express, {Request, Response} from "express";
+import express, {Request, Response, NextFunction} from "express";
 import { requireAuth, validateRequest, NotFoundError, OrderStatus, BadRequestError } from '@soufiane12345/ticketing-common';
 import { body } from "express-validator";
 import { Ticket } from "../Models/ticket";
 import { Order } from "../Models/order";
+
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15*60;
@@ -19,7 +20,8 @@ router.post(
       ]
       ,
       validateRequest,
-      async (req: Request, res: Response) => {
+      async (req: Request, res: Response, next: NextFunction) => {
+            try{
             const {ticketId} = req.body
       //find the ticket in db
       const ticket = await Ticket.findById(ticketId)
@@ -45,7 +47,10 @@ router.post(
       await order.save()
       //publish an event saying that the order has been created
       //send 201  created order
-      res.status(201).send(order)
+      res.status(201).send(order);
+} catch (err) {
+      next(err)
+}
 })
 
 export { router as newOrderRouter };

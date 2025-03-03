@@ -4,11 +4,11 @@ import { OrderStatus } from "@soufiane12345/ticketing-common";
 
 interface ticketAttr {
       title:string,
-      price: string,
+      price: number,
 }
 interface ticketDoc extends mongoose.Document{
       title:string,
-      price: string,
+      price: number,
       isReserved(): Promise<Boolean>
 }
 interface ticketMode extends mongoose.Model<ticketDoc>{
@@ -27,13 +27,13 @@ const ticketSchema = new mongoose.Schema({
             min:0
       },
 },{
-      toJSON:{
-            transform:(doc, ret)=>{
-                  ret.id = ret._id
-                  delete ret._id
-            },
-      }
-})
+      toJSON: {
+        transform(doc, ret) {
+          ret.id = ret._id;
+          delete ret._id;
+        },
+      },
+    })
 ticketSchema.statics.build = (attr:ticketAttr)=>{
       return new Ticket(attr)
 };

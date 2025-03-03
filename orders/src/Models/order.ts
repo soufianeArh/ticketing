@@ -35,12 +35,16 @@ const OrderSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Ticket'
       },
-},{
-      toJSON:{ transform(doc, ret){
-            ret.id = ret._id,
-            delete ret._id
-      }}
-})
+},
+      {
+            toJSON: {
+              transform(doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+              },
+            },
+          }
+)
 OrderSchema.statics.build = (attr: orderAttr)=>{
       return new Order(attr)
 }
