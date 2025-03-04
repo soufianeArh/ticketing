@@ -28,7 +28,7 @@ it("returns error if the ticket is reserved",async ()=>{
             expiresAt: new Date(),
           });
           await order.save();
-        console.log(ticket)
+       
           await request(app)
             .post('/api/orders')
             .set('Cookie', signin())

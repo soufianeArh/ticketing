@@ -10,6 +10,8 @@ router.get("/api/orders",
       const orders = await Order.find({ userId: req.currentUser!.id})
       const ordersPopulated =  await Order.find({ userId: req.currentUser!.id})
       .populate('ticket')
+
+      res.send(ordersPopulated)
 })
 
 export { router as getAllOrderRouter };

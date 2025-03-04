@@ -44,7 +44,9 @@ router.post(
             expiresAt,
             ticket
       })
-      await order.save()
+      await order.save();
+      console.log("order after save", order, order.id)
+
       //publish an event saying that the order has been created
       //send 201  created order
       res.status(201).send(order);
