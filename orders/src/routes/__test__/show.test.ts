@@ -55,7 +55,7 @@ it("return 404 when order not found", async ()=>{
       .expect(201)
       //get order success
       const {body: fetchedOrder} = await Request(app)
-      .get(`/api/orders/${newOrder.body.id}`)
+      .get(`/api/orders/${newOrder.id}`)
       .set("Cookie",user1 )
       .send()
       .expect(200);
