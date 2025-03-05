@@ -5,6 +5,7 @@ import { signin } from "../../test/setup";
 import { Ticket } from "../../Models/ticket";
 import { Order } from "../../Models/order";
 import { OrderStatus } from "@soufiane12345/ticketing-common";
+import { natsWrapper } from "../../nats-wrapper";
 
 
 it("return error is ticket not found", async ()=>{
@@ -49,3 +50,16 @@ it("rend order after build success", async ()=>{
             .expect(201);
 })
 it.todo("publish event after order created ")
+it("publish event after order created ", async ()=>{
+  const ticket = Ticket.build({
+        title: 'concert',
+        price: 20,
+      });
+      await ticket.save();
+      await request(app)
+        .post('/api/orders')
+        .set('Cookie', signin())
+        .send({ ticketId: ticket.id })
+        .expect(201);
+      expect(natsWrapper.client.publish).toHaveBeenCalled()
+})
