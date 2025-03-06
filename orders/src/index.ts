@@ -1,6 +1,8 @@
 import {app} from "./app"
 import mongoose from 'mongoose';
 import { natsWrapper } from "./nats-wrapper";
+import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { TicketUpdatedListener } from "./events/listeners/ticket-updated.istener";
 
 
 const start = async ()=>{
@@ -21,8 +23,8 @@ const start = async ()=>{
       }
       try{
             await natsWrapper.connect(
-                  process.env.NATS_CLUSTER_ID, 
-                  process.env.NATS_CLIENT_ID, 
+                  process.env.NATS_CLUSTER_ID,
+                  process.env.NATS_CLIENT_ID,
                   process.env.NATS_URL);
             console.log("Connected to Nats")
             natsWrapper.client.on("close", () => {
@@ -31,6 +33,9 @@ const start = async ()=>{
             })
             process.on("SIGINT", () => natsWrapper.client.close())
             process.on("SIGTERM", () => natsWrapper.client.close())
+
+            new TicketCreatedListener(natsWrapper.client).listen();
+            new TicketUpdatedListener(natsWrapper.client).listen();
 
             await  mongoose.connect(process.env.MONGO_URI)
             console.log("Connected to MongoDB")
