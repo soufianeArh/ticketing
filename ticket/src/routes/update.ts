@@ -24,10 +24,11 @@ router.put(
        async ( req: Request, res: Response, next: NextFunction ) => {
       try{
             const ticket = await Ticket.findById(req.params.id);
+            console.log(ticket)
             if(!ticket){
                   next(new NotFoundError())
             }
-            if (ticket!.userId !== req.currentUser!.id){
+            else if (ticket!.userId !== req.currentUser!.id){
                   next( new NotAuthorizedError() )
             }
             ticket!.set({
@@ -35,6 +36,7 @@ router.put(
                   price:req.body.price
             })
             await ticket!.save()
+       
             await new TicketUpdatedPublisher(natsWrapper.client).publish(
                   {
                         id:ticket!.id,
