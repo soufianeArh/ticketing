@@ -5,9 +5,12 @@ import { Ticket } from "../../Models/ticket";
 export class TicketUpdatedListener extends Listener<TicketUpdatevent> {
       subject: Subjects.TicketUpdated = Subjects.TicketUpdated;
       queueGroupName=queueGroupName ;
-      async onMessage(data: { id: string; title: string; price: number; userId: string; }, msg: Message) {
+      async onMessage(data: TicketUpdatevent['data'], msg: Message) {
             //find the ticket
-            const ticket = await Ticket.findById(data.id);
+            const ticket = await Ticket.findOne({
+                  _id: data.id,
+                  version: data.version-1
+            });
             if(!ticket) {
                   throw new NotFoundError()
             }

@@ -6,7 +6,7 @@ import { Ticket } from "../../Models/ticket";
 export class TicketCreatedListener extends Listener<TicketCreateEvent> {
       subject:Subjects.TicketCreated = Subjects.TicketCreated;
       queueGroupName= queueGroupName
-      async onMessage(data: { id: string; title: string; price: number; userId: string; }, msg: Message) {
+      async onMessage(data: TicketCreateEvent['data'], msg: Message) {
             //save ticket to ticket collection in OrdersDB
             const ticket = Ticket.build({
                   id:data.id,

@@ -31,7 +31,7 @@ router.post(
                   price:ticket.price,
                   userId:ticket.userId
             });
-            console.log("event publisher")
+
            res.status(201).send(ticket);
 
 });
