@@ -18,14 +18,13 @@ it ("implement optimistic concurency logic by versionning and respecting version
 
       //save firstinstance
       await firstInstance!.save()
-      //save secondInstance => error 
-      //this shall fail=> because in db that record has v2 and i want to save a v2 too
-      //i must save based on v3
-      // try {
-      //       await secondInstance!.save();
-      //     } catch (err) {
-      //       return;
-      //     }
-       await secondInstance!.save()
+      //save secondInstance => error
+      // await secondInstance!.save()
+      try {
+            await secondInstance!.save();
+          } catch (err) {
+            return;
+          }
+      throw new Error("should not reach this point")
 
 })
