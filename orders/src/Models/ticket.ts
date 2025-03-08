@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { Order } from "./order";
 import { OrderStatus } from "@soufiane12345/ticketing-common";
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+
 
 interface ticketAttr {
       id:string
@@ -34,7 +36,9 @@ const ticketSchema = new mongoose.Schema({
           delete ret._id;
         },
       },
-    })
+    });
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin)
 ticketSchema.statics.build = (attr:ticketAttr)=>{
       return new Ticket({
             _id : attr.id,
