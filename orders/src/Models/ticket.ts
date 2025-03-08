@@ -15,7 +15,8 @@ interface ticketDoc extends mongoose.Document{
       isReserved(): Promise<Boolean>
 }
 interface ticketMode extends mongoose.Model<ticketDoc>{
-      build(attr: ticketAttr): ticketDoc
+      build(attr: ticketAttr): ticketDoc;
+      findByIdAndPreviousVersion(eventInfo: {id:string, version:number}): Promise<ticketDoc | null >
 }
 
 
@@ -45,6 +46,12 @@ ticketSchema.statics.build = (attr:ticketAttr)=>{
             title : attr.title,
             price : attr.price
       })
+};
+ticketSchema.statics.findByIdAndPreviousVersion = async (event:{id:string, version: number})=>{
+     return  await Ticket.findOne({
+            _id: event.id,
+            version: event.version-1
+      });
 };
 ticketSchema.methods.isReserved = async function(){
       const existingOrder =  await Order.findOne({
