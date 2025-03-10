@@ -63,7 +63,7 @@ router.post(
             expiresAt: order.expiresAt.toISOString(),
             ticket:{
                   id: ticket.id,
-                  price: ticket.price
+                  price: ticket.price,
             }
      })
       //send 201  created order

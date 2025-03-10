@@ -5,6 +5,7 @@ import { signin } from "../../test/setup"
 import {Ticket} from "../../Models/ticket"
 import { OrderStatus } from "@soufiane12345/ticketing-common";
 import { natsWrapper } from "../../nats-wrapper"
+import mongoose from "mongoose"
 
 it("successfull cancel an order", async () => {
       //create user
@@ -16,6 +17,7 @@ it("successfull cancel an order", async () => {
      const ticket = await Ticket.build({
            title:"Mytickewt",
            price: 20,
+           id:new mongoose.Types.ObjectId().toHexString()
      })
      await ticket.save()
      const {body:newOrder} = await Request(app)
@@ -52,6 +54,7 @@ it("successfull publish after cancel", async () => {
      const ticket = await Ticket.build({
            title:"Mytickewt",
            price: 20,
+           id:new mongoose.Types.ObjectId().toHexString()
      })
      await ticket.save()
      const {body:newOrder} = await Request(app)

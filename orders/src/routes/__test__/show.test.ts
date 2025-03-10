@@ -3,6 +3,7 @@ import {app} from "../../app"
 import {Order} from "../../Models/order"
 import { signin } from "../../test/setup"
 import {Ticket} from "../../Models/ticket"
+import mongoose from "mongoose"
 
 it("return 404 when order not found", async ()=>{
       await Request(app)
@@ -19,6 +20,8 @@ it("return 404 when order not found", async ()=>{
       const ticket = await Ticket.build({
             title:"Mytickewt",
             price: 20,
+            id:new mongoose.Types.ObjectId().toHexString()
+
       })
       await ticket.save()
       //make order with userone => get order.id
@@ -43,6 +46,7 @@ it("return 404 when order not found", async ()=>{
       const ticket = await Ticket.build({
             title:"Mytickewt",
             price: 20,
+            id:new mongoose.Types.ObjectId().toHexString()
       })
       await ticket.save()
       //make order of ticket by user1
