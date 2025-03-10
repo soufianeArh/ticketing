@@ -7,7 +7,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatevent> {
       queueGroupName=queueGroupName ;
       async onMessage(data: TicketUpdatevent['data'], msg: Message) {
             //find the ticket
-            const ticket = await Ticket.findByIdAndPreviousVersion(data)
+            const ticket = await Ticket.findByIdAndPreviousVersion({id: data.id, version: data.version})
             if(!ticket) {
                   throw new NotFoundError()
             }

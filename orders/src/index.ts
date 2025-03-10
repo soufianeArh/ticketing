@@ -2,7 +2,7 @@ import {app} from "./app"
 import mongoose from 'mongoose';
 import { natsWrapper } from "./nats-wrapper";
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
-import { TicketUpdatedListener } from "./events/listeners/ticket-updated.istener";
+import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 
 
 const start = async ()=>{

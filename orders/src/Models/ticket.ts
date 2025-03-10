@@ -12,9 +12,10 @@ interface ticketAttr {
 interface ticketDoc extends mongoose.Document{
       title:string,
       price: number,
+      version: number
       isReserved(): Promise<Boolean>
 }
-interface ticketMode extends mongoose.Model<ticketDoc>{
+interface ticketModel extends mongoose.Model<ticketDoc>{
       build(attr: ticketAttr): ticketDoc;
       findByIdAndPreviousVersion(eventInfo: {id:string, version:number}): Promise<ticketDoc | null >
 }
@@ -47,10 +48,10 @@ ticketSchema.statics.build = (attr:ticketAttr)=>{
             price : attr.price
       })
 };
-ticketSchema.statics.findByIdAndPreviousVersion = async (event:{id:string, version: number})=>{
+ticketSchema.statics.findByIdAndPreviousVersion = async (eventInfo:{id:string, version: number})=>{
      return  await Ticket.findOne({
-            _id: event.id,
-            version: event.version-1
+            _id: eventInfo.id,
+            version: eventInfo.version-1
       });
 };
 ticketSchema.methods.isReserved = async function(){
@@ -67,5 +68,5 @@ ticketSchema.methods.isReserved = async function(){
       return !!existingOrder
 }
 
-const Ticket = mongoose.model<ticketDoc,ticketMode >('Ticket', ticketSchema);
+const Ticket = mongoose.model<ticketDoc,ticketModel >('Ticket', ticketSchema);
 export {Ticket , ticketDoc}

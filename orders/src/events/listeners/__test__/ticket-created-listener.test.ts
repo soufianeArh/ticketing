@@ -4,6 +4,7 @@ import { natsWrapper } from "../../../nats-wrapper"
 import mongoose from "mongoose"
 import { Message } from "node-nats-streaming"
 import { Ticket } from "../../../Models/ticket"
+
 const setUp = async ()=>{
       //create instance of the listener
       //create fake event data
@@ -31,7 +32,7 @@ it("listner creates and saves a ticket", async ()=>{
       expect(ticket).toBeDefined()
       expect(ticket!.title).toEqual(data.title)
 })
-it("ack function beein called", async()=>{
+it("ack function beein called once", async()=>{
       const {listener, data, msg} = await setUp();
       await listener.onMessage(data,msg)
       expect(msg.ack).toHaveBeenCalledTimes(1);
