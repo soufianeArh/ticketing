@@ -11,6 +11,7 @@ interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
   userId: string;
+  orderId?: string,
   version: number;//expect version also
 }
 //ticketDoc must have all mongoose.Document props but i deleted __V ?? 
@@ -33,6 +34,9 @@ const ticketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    orderId:{
+      type: String,
+    }
   },
   {
     toJSON: {
