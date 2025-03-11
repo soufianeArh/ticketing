@@ -7,7 +7,7 @@ export class OrderCreatedListener extends Listener<OrderCreateEvent>{
       queueGroupName = "ticket-service";
       async onMessage(data:OrderCreateEvent['data'] , msg: Message){
             //lock the ticket that was orderd
-            
+            //findoNe?? or check if its locked ??
             const ticket = await Ticket.findById(data.ticket.id);
             if(!ticket){
                   throw new NotFoundError();
