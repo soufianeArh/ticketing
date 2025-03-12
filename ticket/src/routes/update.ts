@@ -1,6 +1,6 @@
 import express , {Request , Response, NextFunction } from "express";
 import {Ticket} from "../models/Ticket";
-import { NotFoundError, requireAuth, NotAuthorizedError, validateRequest } from "@soufiane12345/ticketing-common";
+import { NotFoundError, requireAuth, NotAuthorizedError, validateRequest, BadRequestError } from "@soufiane12345/ticketing-common";
 import {body} from "express-validator";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 import { natsWrapper } from "../nats-wrapper";
@@ -30,6 +30,9 @@ router.put(
             }
             else if (ticket!.userId !== req.currentUser!.id){
                   next( new NotAuthorizedError() )
+            }
+            if(ticket!.orderId){
+                  throw new BadRequestError("TICKET IS RESETVED")
             }
             ticket!.set({
                   title:req.body.title,
