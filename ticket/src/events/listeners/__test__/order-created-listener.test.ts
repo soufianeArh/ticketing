@@ -49,7 +49,11 @@ it("ack was called once", async ()=>{
 it("event was published inside order-created-listener", async ()=>{
       const {listener, data, msg, ticket} = await setup();
       await listener.onMessage(data, msg);
-      expect(natsWrapper.client.publish).toHaveBeenCalledTimes(1)
+      expect(natsWrapper.client.publish).toHaveBeenCalledTimes(1);
+      //@ts-ignore
+      console.log(natsWrapper.client.publish.mock.calls)
+      const ticketUpdateData = JSON.parse((natsWrapper.client.publish as jest.Mock).mock.calls[0][1])
+      console.log(ticketUpdateData)
 });
 
 // it("concurency due to fail", async ()=>{
