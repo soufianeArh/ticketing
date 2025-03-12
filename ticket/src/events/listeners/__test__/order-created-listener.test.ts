@@ -45,7 +45,12 @@ it("ack was called once", async ()=>{
       const {listener, data, msg, ticket} = await setup();
       await listener.onMessage(data, msg);
       expect(msg.ack).toHaveBeenCalledTimes(1)
-})
+});
+it("event was published inside order-created-listener", async ()=>{
+      const {listener, data, msg, ticket} = await setup();
+      await listener.onMessage(data, msg);
+      expect(natsWrapper.client.publish).toHaveBeenCalledTimes(1)
+});
 
 // it("concurency due to fail", async ()=>{
 //       //make version advanced and expect error that will creatch the app: advanced veriosn
