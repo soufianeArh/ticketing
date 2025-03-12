@@ -1,8 +1,5 @@
-import {app} from "./app"
-import mongoose from 'mongoose';
 import { natsWrapper } from "./nats-wrapper";
-import { OrderCreatedListener } from "./events/listeners/order-created-listener";
-import {OrderCancelledListener} from "./events/listeners/order-cancelled-listener"
+
 
 
 const start = async ()=>{
@@ -34,15 +31,11 @@ const start = async ()=>{
             process.on("SIGINT", () => natsWrapper.client.close())
             process.on("SIGTERM", () => natsWrapper.client.close())
 
-            new OrderCreatedListener(natsWrapper.client).listen();
-            new OrderCancelledListener(natsWrapper.client).listen()
-            await  mongoose.connect(process.env.MONGO_URI)
-            console.log("Connected to MongoDB")
+          
+          
       }catch(err){
             console.log("Mongoose Connection Failed",err)
       }
-      app.listen(3000, ()=>{
-            console.log("express server running at 3000 via ts-node-dev");
-      })
+    
 }
 start()
