@@ -54,6 +54,7 @@ it("event was published inside order-created-listener", async ()=>{
       console.log(natsWrapper.client.publish.mock.calls)
       const ticketUpdateData = JSON.parse((natsWrapper.client.publish as jest.Mock).mock.calls[0][1])
       console.log(ticketUpdateData)
+      expect(ticketUpdateData.orderId).toEqual(data.id)
 });
 
 // it("concurency due to fail", async ()=>{
