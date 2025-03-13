@@ -2,7 +2,7 @@ apiVersion: skaffold/v4beta3
 kind: Config
 manifests:
   rawYaml:
-    - ./infra/k8s/* 
+    - ./infra/k8s/*
 build:
   local:
     push: false
@@ -25,6 +25,14 @@ build:
             dest: .
     - image: soufiane12345/ticket
       context: ticket
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: soufiane12345/expiration
+      context: expiration
       docker:
         dockerfile: Dockerfile
       sync:
