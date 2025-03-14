@@ -39,6 +39,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: soufiane12345/payment
+      context: payment
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     - image: soufiane12345/orders
       context: orders
       docker:
