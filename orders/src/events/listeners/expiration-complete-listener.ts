@@ -18,7 +18,6 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
              //update Order
              order.set({
                   status :OrderStatus.Canceled,
-                  ticket: null
             })
              await order.save();
  
