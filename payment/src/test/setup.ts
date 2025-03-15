@@ -37,10 +37,10 @@ afterAll(async () => {
 });
 
 
-export function signin() {
+export function signin(id: string) {
 //fake payload
 const payload = {
-  id: new mongoose.Types.ObjectId().toHexString(),
+  id,
   email:"test@test.com"
 }
 //create JWT

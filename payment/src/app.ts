@@ -3,7 +3,7 @@ import cookieSession from "cookie-session";
 
 import bodyParser from 'body-parser';
 
-
+import { CreateChargeRouter } from './routes/new';
 
 import { errorHandler, NotFoundError, currentUser } from '@soufiane12345/ticketing-common';
 
@@ -18,6 +18,8 @@ app.use(cookieSession({
 }));
 
 app.use(currentUser);
+
+app.use(CreateChargeRouter)
 
 
 

@@ -10,6 +10,13 @@ spec:
     - host: ticketing.dev
       http:
         paths:
+         - path: /api/payment/?(.*)
+           pathType: ImplementationSpecific
+           backend:
+             service:
+               name: payment-clusterip-srvs
+               port:
+                 number: 3000
          - path: /api/users/?(.*)
            pathType: ImplementationSpecific
            backend:

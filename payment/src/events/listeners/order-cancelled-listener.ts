@@ -8,7 +8,7 @@ export class OrderCancelledListener extends Listener<OrderCancelEvent>{
       queueGroupName = queueGroupName;
       async onMessage(data: OrderCancelEvent["data"], msg: Message) {
             //update to canceled + no publisher
-            const order = await Order.findById(data.id);
+            const order = await Order.findOne({_id : data.id});
             if(!order){
                   throw new NotAuthorizedError()
             }
