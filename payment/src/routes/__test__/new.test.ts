@@ -58,14 +58,37 @@ it("return 400 when order cancelled", async ()=>{
       }).expect(400)
 
 });
-it("retuen 200 when token valid and same userId ", async()=>{
+// it("retuen 201 when token valid and same userId ", async()=>{
+//       const sameId = new mongoose.Types.ObjectId().toHexString();
+//       const order = Order.build({
+//             id:new mongoose.Types.ObjectId().toHexString(),
+//             status:OrderStatus.Created,
+//             version:0,
+//             userId:sameId,
+//             price:12
+//       });
+//       await order.save();
+//       await request(app)
+//       .post("/api/payment")
+//       .set("Cookie", signin(sameId))//id:random
+//       .send({
+//             orderId:order.id,
+//             token:"tok_visa"
+//       }).expect(201)
+
+//       const chargedOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0]
+//       expect(chargedOptions.currency).toEqual("usd")
+// })
+
+it("retuen 201 + test direct request to stripe API ", async()=>{
       const sameId = new mongoose.Types.ObjectId().toHexString();
+      const price = Math.floor(Math.random()*10000)
       const order = Order.build({
             id:new mongoose.Types.ObjectId().toHexString(),
             status:OrderStatus.Created,
             version:0,
             userId:sameId,
-            price:12
+            price:price
       });
       await order.save();
       await request(app)
@@ -75,7 +98,9 @@ it("retuen 200 when token valid and same userId ", async()=>{
             orderId:order.id,
             token:"tok_visa"
       }).expect(201)
-
-      const chargedOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0]
-      expect(chargedOptions.currency).toEqual("usd")
+      //imported strip is the actual one
+      const stripeCharges = await stripe.charges.list({limit:50})
+      const stripeCharge = stripeCharges.data.find(charge=> charge.amount === price*100);
+      console.log(stripeCharge)
+      expect(stripeCharge).toBeDefined();
 })
