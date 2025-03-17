@@ -4,6 +4,7 @@ import { signin } from "../../test/setup";
 import mongoose from "mongoose";
 import {Order} from "../../models/Orders"
 import { OrderStatus } from "@soufiane12345/ticketing-common";
+import {stripe} from "../../stripe"
 it("retuen 404 when no user order found ", async()=>{
       await request(app)
       .post("/api/payment")
@@ -56,4 +57,25 @@ it("return 400 when order cancelled", async ()=>{
             token:"assdw"
       }).expect(400)
 
+});
+it("retuen 200 when token valid and same userId ", async()=>{
+      const sameId = new mongoose.Types.ObjectId().toHexString();
+      const order = Order.build({
+            id:new mongoose.Types.ObjectId().toHexString(),
+            status:OrderStatus.Created,
+            version:0,
+            userId:sameId,
+            price:12
+      });
+      await order.save();
+      await request(app)
+      .post("/api/payment")
+      .set("Cookie", signin(sameId))//id:random
+      .send({
+            orderId:order.id,
+            token:"tok_visa"
+      }).expect(201)
+
+      const chargedOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0]
+      expect(chargedOptions.currency).toEqual("usd")
 })

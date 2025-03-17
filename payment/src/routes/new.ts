@@ -34,13 +34,12 @@ router.post(
                         throw new BadRequestError("this is already cancelled")
                   }
 
-                  res.send({success:true});
                   await stripe.charges.create({
                         currency: "usd",
                         amount: order.price*100,
                         source:req.body.token
                   })
-                  res.send({success:true})
+                  res.status(201).send({success:true})
 
             }
             catch(err){next(err)}
