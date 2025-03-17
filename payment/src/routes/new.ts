@@ -2,6 +2,7 @@ import { BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus, requir
 import express, {Request, Response, NextFunction} from "express"
 import {body} from "express-validator";
 import { Order } from "../models/Orders";
+import {stripe} from "../stripe"
 
 const router = express.Router();
 
@@ -34,10 +35,16 @@ router.post(
                   }
 
                   res.send({success:true});
+                  await stripe.charges.create({
+                        currency: "usd",
+                        amount: order.price*100,
+                        source:req.body.token
+                  })
+                  res.send({success:true})
 
             }
             catch(err){next(err)}
-            
+           
 
 
 } )
