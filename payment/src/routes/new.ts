@@ -3,6 +3,7 @@ import express, {Request, Response, NextFunction} from "express"
 import {body} from "express-validator";
 import { Order } from "../models/Orders";
 import {stripe} from "../stripe"
+import { Payment } from "../models/Payment";
 
 const router = express.Router();
 
@@ -34,18 +35,21 @@ router.post(
                         throw new BadRequestError("this is already cancelled")
                   }
 
-                  await stripe.charges.create({
+                  const charge = await stripe.charges.create({
                         currency: "usd",
                         amount: order.price*100,
                         source:req.body.token
                   })
+
+                  const payment = Payment.build({
+                        orderId:order.id,//could be also req.body.orderId
+                        stripeId:charge.id
+                  });
+                  await payment.save();
                   res.status(201).send({success:true})
 
             }
             catch(err){next(err)}
-           
-
-
 } )
 
 export {router as CreateChargeRouter}

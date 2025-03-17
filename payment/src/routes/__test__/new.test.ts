@@ -4,7 +4,9 @@ import { signin } from "../../test/setup";
 import mongoose from "mongoose";
 import {Order} from "../../models/Orders"
 import { OrderStatus } from "@soufiane12345/ticketing-common";
-import {stripe} from "../../stripe"
+import {stripe} from "../../stripe";
+import {Payment} from "../../models/Payment";
+
 it("retuen 404 when no user order found ", async()=>{
       await request(app)
       .post("/api/payment")
@@ -101,6 +103,34 @@ it("retuen 201 + test direct request to stripe API ", async()=>{
       //imported strip is the actual one
       const stripeCharges = await stripe.charges.list({limit:50})
       const stripeCharge = stripeCharges.data.find(charge=> charge.amount === price*100);
-      console.log(stripeCharge)
+      //
       expect(stripeCharge).toBeDefined();
+});
+it("payment saved after charge sucess ", async()=>{
+      const sameId = new mongoose.Types.ObjectId().toHexString();
+      const price = Math.floor(Math.random()*10000)
+      const order = Order.build({
+            id:new mongoose.Types.ObjectId().toHexString(),
+            status:OrderStatus.Created,
+            version:0,
+            userId:sameId,
+            price:price
+      });
+      await order.save();
+      await request(app)
+      .post("/api/payment")
+      .set("Cookie", signin(sameId))//id:random
+      .send({
+            orderId:order.id,
+            token:"tok_visa"
+      }).expect(201)
+      const stripeCharges = await stripe.charges.list({limit:50})
+      const stripeCharge = stripeCharges.data.find(charge=> charge.amount === price*100);
+      //
+      expect(stripeCharge).toBeDefined();//charge will be undefined or obj
+      
+      const payment = await Payment.findOne({orderId:order.id, stripeId: stripeCharge!.id})
+      expect(payment).toBeDefined();//paymnet might be null or defined
+      
 })
+
