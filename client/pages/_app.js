@@ -6,7 +6,9 @@ const NextPage =  ({Component, randomPageGetInitilalCall, currentUser})=>{
       console.log(currentUser)
       return <div>
             <Header prop = {currentUser}/>
-            <Component  currentUser={currentUser} {...randomPageGetInitilalCall} />
+            <div className="container">
+              <Component  currentUser={currentUser} {...randomPageGetInitilalCall} />
+            </div>
       </div> 
 }
 
@@ -14,10 +16,11 @@ const NextPage =  ({Component, randomPageGetInitilalCall, currentUser})=>{
 NextPage.getInitialProps = async(props)=>{
       // console.log("geinitial from nectpage", props.ctx.req.headers);
       try{
-            const {data} = await buildClient(props.ctx.req).get("/api/users/currentuser")
+            const client = await buildClient(props.ctx.req)
+            const {data} = client.get("/api/users/currentuser")
             let randomPageGetInitilalCall = {};
             if(props.Component.getInitialProps){
-                  randomPageGetInitilalCall = await props.Component.getInitialProps(props.ctx.req, client,  data.currentUser);
+                  randomPageGetInitilalCall = await props.Component.getInitialProps(props.ctx.req, client, data.currentUser);
                   console.log("randomPageGetInitilalCall",randomPageGetInitilalCall);//exact retrun of it
 
             }
