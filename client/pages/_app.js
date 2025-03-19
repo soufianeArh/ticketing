@@ -6,7 +6,7 @@ const NextPage =  ({Component, randomPageGetInitilalCall, currentUser})=>{
       console.log(currentUser)
       return <div>
             <Header prop = {currentUser}/>
-            <Component {...randomPageGetInitilalCall} />
+            <Component  currentUser={currentUser} {...randomPageGetInitilalCall} />
       </div> 
 }
 

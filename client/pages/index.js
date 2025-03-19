@@ -9,14 +9,7 @@ const LandingPage =  ({currentUser})=>{
 
 LandingPage.getInitialProps = async(req)=>{
   //console.log("geinitial from randome", props.headers);
-   try{
-     const {data} = await buildClient(req).get("/api/users/currentuser")
-     console.log("randompage", data)
-     return data
-   }catch(err){
-     console.log("browser or ssr error", err)
-     return {currentUser: undefined}
-   }
+   return {}
 }
 
 export default LandingPage
