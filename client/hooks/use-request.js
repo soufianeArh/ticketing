@@ -6,7 +6,7 @@ export default ({url, method, body, onSuccess})=>{
             try{
                   const response = await axios[method](url, body)
                   setErrors(null)
-                  onSuccess()
+                  onSuccess(response.data)
                   return response.data;
             }catch(err){
                   console.log(err)

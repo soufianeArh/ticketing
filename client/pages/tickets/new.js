@@ -1,8 +1,22 @@
-import {useState} from "react"
+import {useReducer, useState} from "react"
+import useRequest from "../../hooks/use-request";
 
 const NewTicket = ()=>{
       const [title, setTitle] = useState("");
       const [price, setPrice] = useState("");
+      const {doRequest, errors} = useRequest({
+            url:'/api/tickets',
+            method:"POST",
+            body:{
+                  title,
+                  price
+            },
+            onSuccess:(response)=>{
+                  //
+                  //maybe refresh 
+            }
+      })
+
       function onBlur (){
             const value = parseFloat(price);
             if(isNaN(price)){
@@ -10,9 +24,12 @@ const NewTicket = ()=>{
             }
             setPrice(value.toFixed(2))
       }
+      async function onSubmit(){
+            await doRequest()
+      }
       return (<div>
             <h1>Create ticket</h1>
-            <form>
+            <form onSubmit={onSubmit}>
                  <div className="form-group">
                   <label>Title</label>
                   <input
@@ -29,7 +46,8 @@ const NewTicket = ()=>{
                   onChange={(e)=>setPrice(e.target.value)}
                   className="form-control"/>
                  </div>
-                 <button className="btn btn-primary/"></button>
+                 {errors}
+                 <button className="btn btn-primary/">Create New Ticket</button>
 
             </form>
       </div>)
