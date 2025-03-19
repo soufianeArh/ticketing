@@ -7,7 +7,7 @@ const LandingPage =  ({currentUser})=>{
           return currentUser?  <h1>You are signed-inmmm </h1>:<h1>you are NOT signe INnnn</h1>
 }
 
-LandingPage.getInitialProps = async(req)=>{
+LandingPage.getInitialProps = async(req, client, currentUser )=>{
   //console.log("geinitial from randome", props.headers);
    return {}
 }

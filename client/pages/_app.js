@@ -17,7 +17,7 @@ NextPage.getInitialProps = async(props)=>{
             const {data} = await buildClient(props.ctx.req).get("/api/users/currentuser")
             let randomPageGetInitilalCall = {};
             if(props.Component.getInitialProps){
-                  randomPageGetInitilalCall = await props.Component.getInitialProps(props.ctx.req);
+                  randomPageGetInitilalCall = await props.Component.getInitialProps(props.ctx.req, client,  data.currentUser);
                   console.log("randomPageGetInitilalCall",randomPageGetInitilalCall);//exact retrun of it
 
             }
