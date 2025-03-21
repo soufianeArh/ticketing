@@ -16,11 +16,11 @@ const NextPage =  ({Component, randomPageGetInitilalCall, currentUser})=>{
 NextPage.getInitialProps = async(props)=>{
       // console.log("geinitial from nectpage", props.ctx.req.headers);
       try{
-            const client = await buildClient(props.ctx.req)
+            const client = await buildClient(props.ctx)
             const {data} = client.get("/api/users/currentuser")
             let randomPageGetInitilalCall = {};
             if(props.Component.getInitialProps){
-                  randomPageGetInitilalCall = await props.Component.getInitialProps(props.ctx.req, client, data.currentUser);
+                  randomPageGetInitilalCall = await props.Component.getInitialProps(props.ctx, client, data.currentUser);
                   console.log("randomPageGetInitilalCall",randomPageGetInitilalCall);//exact retrun of it
 
             }
