@@ -10,14 +10,14 @@ const TicketShow = ({ticket})=>{
                   Router.push("/orders/[orderId]", `/orders/${order.id}`)
             }
       })
-
+    
       return <>
       <h1>Ticket Show</h1>
       <h2>{ticket.title}</h2>
       <h2>{ticket.price}</h2>
       {errors}
       <button
-      onClick={doRequest}
+      onClick={async()=>await doRequest()}
       className="btn btn-primary">
             purshase
       </button>

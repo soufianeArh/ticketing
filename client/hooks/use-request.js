@@ -2,9 +2,9 @@ import React from 'react';
 import axios from "axios";
 export default ({url, method, body, onSuccess})=>{
       const [errors, setErrors] = React.useState(null);
-      const doRequest = async ()=>{
+      const doRequest = async (doRequestprops = {})=>{
             try{
-                  const response = await axios[method](url, body)
+                  const response = await axios[method](url, {...body, ...doRequestprops})
                   setErrors(null)
                   onSuccess(response.data)
                   return response.data;
