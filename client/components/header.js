@@ -5,6 +5,8 @@ export default ({prop}) =>{
       const links = [
             !prop && {label:"Sign In", href:"/auth/signin"},
             !prop && {label:"Sign Up", href:"/auth/signup"},
+            prop && {label:"Sell tickets", href:"/tickets/new"},
+            prop && {label:"My Orders", href:"/orders"},
             prop && {label:"Sign Out", href:"/auth/signout"}
       ].filter(item => item)
       .map(({label,href})=>{
