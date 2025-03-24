@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 
 const start = async ()=>{
-      console.log("starting up ...")
+      console.log("starting up ... ...")
       if(!process.env.JWT_KEY){
             throw new Error('KWT_KEY must be defined in POD process NS!')
       }
