@@ -23,10 +23,10 @@ const TicketShow = ({ticket})=>{
       </button>
       </>
 }
-TicketShow.getInitialProps = (context , client) =>{
+TicketShow.getInitialProps = async (context , client) =>{
       const {ticketId} = context.query
       try{
-            const {data} = client.get(`/api/tickets/${ticketId}`)
+            const {data} = await client.get(`/api/tickets/${ticketId}`)
             return {ticket: data}
       }catch(err){
             return {ticketId: undefined}

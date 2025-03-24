@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useRequest from "../../hooks/use-request"
 import StripeCheckout from 'react-stripe-checkout';
+import { Router } from "next/router";
 
 const OrderShow = ({order, currentUser}) => {
       //fi negative => expired
@@ -10,7 +11,8 @@ const OrderShow = ({order, currentUser}) => {
       method: "POST",
       body:{orderId: ""},
       onSuccess:()=>{
-            console.log("payment success")
+            console.log("payment success");
+            Router.push("/orders")
       }
 
     })
