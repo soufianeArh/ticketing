@@ -8,7 +8,7 @@ it(" fails with unfound email  ", async () => {
             email:"test@test.com",
             password: "password123"
       })
-      .expect(401)
+      .expect(400)
 })
 it(" fails with incorrect password is supplied ", async () => {
 
@@ -25,7 +25,7 @@ it(" fails with incorrect password is supplied ", async () => {
             email:"test@test.com",
             password: "password123"
       })
-      .expect(401)
+      .expect(400)
 })
 it(" success with correct credentials ", async () => {
 

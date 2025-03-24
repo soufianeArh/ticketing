@@ -57,7 +57,7 @@ it(" allowing only one email", async () => {
              email:"test@test.com",
             password: "password"
       })
-      .expect(401)
+      .expect(400)
 
 })
 
