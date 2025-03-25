@@ -33,7 +33,6 @@ router.post(
                               email: req.body.email,
                               password: req.body.password
                         })
-                        //threre is a pre-defined function that will be fired when the user/
                         //that function will hash userSchema.pre("save",....
                         await user.save();
                        
